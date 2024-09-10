@@ -13,7 +13,8 @@
 # limitations under the License.
 # ==============================================================================
 import os
-_NUM_THREADS="8"
+
+_NUM_THREADS="2"
 os.environ["OMP_NUM_THREADS"] = _NUM_THREADS
 os.environ["OPENBLAS_NUM_THREADS"] = _NUM_THREADS
 os.environ["MKL_NUM_THREADS"] = _NUM_THREADS
