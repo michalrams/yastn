@@ -21,13 +21,23 @@ where usage of OpenMP is simpler.
 os.environ["OMP_NUM_THREADS"]  is set in backend_np_1d
 """
 
-from backend_np_1d import *
-
 import os
 import platform
 from itertools import groupby
 import ctypes, ctypes.util
 import numpy as np
+
+_NUM_THREADS="2"
+os.environ["OMP_NUM_THREADS"] = _NUM_THREADS
+os.environ["OPENBLAS_NUM_THREADS"] = _NUM_THREADS
+os.environ["MKL_NUM_THREADS"] = _NUM_THREADS
+os.environ["VECLIB_MAXIMUM_THREADS"] = _NUM_THREADS
+os.environ["NUMEXPR_NUM_THREADS"] = _NUM_THREADS
+
+
+def randR(D, device='cpu', dtype=np.float64):
+    return 2 * np.random.random_sample(D).astype(dtype) - 1
+
 
 name = "tm_worker"
 path = os.path.dirname(os.path.abspath(__file__)) + os.sep  # same path as this wrapper
@@ -43,7 +53,6 @@ else:
 # Load the C shared library.
 # In case of 'No such file or directory' error 
 # put the compiled dynamic library in the same dir as this file, or change the path above.
-
 _lib = ctypes.CDLL(name)
 
 _test_empty = _lib.test_empty
